@@ -1,0 +1,2 @@
+D:/Projects/starinvest/android/app/.cxx/Debug/6u3y3m3n/x86_64/CMakeFiles/edit_cache.dir
+D:/Projects/starinvest/android/app/.cxx/Debug/6u3y3m3n/x86_64/CMakeFiles/rebuild_cache.dir

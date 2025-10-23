@@ -11,15 +11,16 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  MaterialApp(
-        theme: ThemeData(
-          scaffoldBackgroundColor: ConstColors.grayBasic,
-          useMaterial3: false,
-        ),
+    return MaterialApp(
+      theme: ThemeData(
+        scaffoldBackgroundColor: ConstColors.grayBasic,
+        splashColor: Colors.transparent,
+        highlightColor: Colors.transparent,
+        splashFactory: NoSplash.splashFactory,
+      ),
       debugShowCheckedModeBanner: false,
-       debugShowMaterialGrid: false,
-       showSemanticsDebugger: false,
-      
+      debugShowMaterialGrid: false,
+      showSemanticsDebugger: false,
       home: const SplashScreen(),
     );
   }

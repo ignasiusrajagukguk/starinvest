@@ -3,42 +3,44 @@ import 'package:flutter/services.dart';
 import 'package:starinvest/src/common/colors.dart';
 import 'package:starinvest/src/common/fonts_family.dart';
 
-
 const _errorStyleNoLabel = TextStyle(
   color: Colors.red,
   height: 0,
 );
 
 class TextFormFieldWidget {
-  static Widget height50(String hint,
-      {TextEditingController? controller,
-      FormFieldValidator<String>? validator,
-      AutovalidateMode autovalidateMode = AutovalidateMode.disabled,
-      String? initialValue,
-      FocusNode? focusNode,
-      VoidCallback? onEditingComplete,
-      bool enable = true,
-      TextInputType keyboardType = TextInputType.text,
-      int? maxLines = 1,
-      int? maxLength,
-      EdgeInsets? contentPadding = const EdgeInsets.fromLTRB(10, 0, 10, 0),
-      List<TextInputFormatter>? inputFormatters,
-      TextStyle textStyle =
-          const TextStyle(fontFamily: poppinsRegular, fontSize: 14),
-      bool? isObscureText,
-      OutlineInputBorder? focusBorderColor,
-      TextAlign? textAlign,
-      Color? fillColor,
-      Widget? suffixIcon,
-      Widget? prefixIcon,
-      Function(String? value)? onChanged,
-      Color? textColor,
-      OutlineInputBorder? border,
-      OutlineInputBorder? enabledBorder,
-      OutlineInputBorder? disabledBorder,
-      double? borderRadius}) {
+  static Widget height50(
+    String hint, {
+    TextEditingController? controller,
+    TextStyle? hintStyle,
+    FormFieldValidator<String>? validator,
+    AutovalidateMode autovalidateMode = AutovalidateMode.disabled,
+    String? initialValue,
+    FocusNode? focusNode,
+    VoidCallback? onEditingComplete,
+    bool enable = true,
+    TextInputType keyboardType = TextInputType.text,
+    int? maxLines = 1,
+    int? maxLength,
+    EdgeInsets? contentPadding = const EdgeInsets.fromLTRB(10, 0, 10, 0),
+    List<TextInputFormatter>? inputFormatters,
+    TextStyle textStyle =
+        const TextStyle(fontFamily: poppinsRegular, fontSize: 14),
+    bool? isObscureText,
+    OutlineInputBorder? focusBorderColor,
+    TextAlign? textAlign,
+    Color? fillColor,
+    Widget? suffixIcon,
+    Widget? prefixIcon,
+    Function(String? value)? onChanged,
+    Color? textColor,
+    OutlineInputBorder? border,
+    OutlineInputBorder? enabledBorder,
+    OutlineInputBorder? disabledBorder,
+    double? borderRadius,
+    bool readOnly = false,
+  }) {
     return SizedBox(
-      // constraints: const BoxConstraints(minHeight: 40),
       height: 50,
       child: TextFormField(
         textAlign: textAlign ?? TextAlign.center,
@@ -48,10 +50,11 @@ class TextFormFieldWidget {
         initialValue: initialValue,
         enableSuggestions: true,
         validator: validator,
+        readOnly: readOnly,
         onEditingComplete: onEditingComplete,
         focusNode: focusNode,
         enabled: enable,
-        style: textStyle.copyWith(color: textColor??ConstColors.black),
+        style: textStyle.copyWith(color: textColor ?? ConstColors.black),
         maxLines: maxLines,
         inputFormatters: inputFormatters,
         keyboardType: keyboardType,
@@ -64,8 +67,10 @@ class TextFormFieldWidget {
             focusedBorder: focusBorderColor,
             disabledBorder: disabledBorder,
             filled: true,
-            fillColor: fillColor,enabledBorder: enabledBorder,
+            fillColor: fillColor,
+            enabledBorder: enabledBorder,
             hint: hint,
+            hintStyle: hintStyle,
             suffixIcon: suffixIcon,
             prefixIcon: prefixIcon,
             borderRadius: borderRadius),
@@ -80,7 +85,7 @@ class _Border {
   static OutlineInputBorder _defaultBorder({double? borderRadius}) {
     return OutlineInputBorder(
       borderRadius: BorderRadius.circular(borderRadius ?? 10),
-      borderSide:  const BorderSide(
+      borderSide: const BorderSide(
         color: Colors.blue,
         width: .5,
       ),
@@ -90,8 +95,8 @@ class _Border {
   static OutlineInputBorder _focusedBorder({double? borderRadius}) {
     return OutlineInputBorder(
       borderRadius: BorderRadius.all(Radius.circular(borderRadius ?? 15)),
-      borderSide:  BorderSide(
-        color: ConstColors.baseColorDark.withOpacity(0.5),
+      borderSide: BorderSide(
+        color: ConstColors.baseColorDark.withValues(alpha: 0.5),
         width: 2,
       ),
     );
@@ -120,6 +125,7 @@ class _Border {
   static InputDecoration _defaultInputDecoration(
       {EdgeInsetsGeometry? contentPadding,
       String? hint,
+      TextStyle? hintStyle,
       bool filled = true,
       OutlineInputBorder? focusedBorder,
       OutlineInputBorder? border,
@@ -132,10 +138,11 @@ class _Border {
       double? borderRadius}) {
     return InputDecoration(
       contentPadding: contentPadding,
-      border: border??_Border._defaultBorder(borderRadius: borderRadius),
-      focusedBorder: focusedBorder ??
-          _Border._focusedBorder(borderRadius: borderRadius),
-      enabledBorder: enabledBorder?? _Border._enabledBorder(borderRadius: borderRadius),
+      border: border ?? _Border._defaultBorder(borderRadius: borderRadius),
+      focusedBorder:
+          focusedBorder ?? _Border._focusedBorder(borderRadius: borderRadius),
+      enabledBorder:
+          enabledBorder ?? _Border._enabledBorder(borderRadius: borderRadius),
       errorBorder: _Border._errorBorder(borderRadius: borderRadius),
       errorStyle: _errorStyleNoLabel,
       disabledBorder: disabledBorder,
@@ -143,6 +150,7 @@ class _Border {
       prefixIcon: prefixIcon,
       fillColor: fillColor ?? Colors.white,
       hintText: hint,
+      hintStyle: hintStyle,
       counterText: '',
       suffixIcon: suffixIcon,
     );

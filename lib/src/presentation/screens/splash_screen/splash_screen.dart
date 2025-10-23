@@ -11,12 +11,32 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   @override
+  void initState() {
+    super.initState();
+
+    initApp();
+  }
+
+  void initApp() {
+    Future.delayed(const Duration(seconds: 5)).then((value) async {
+      if (!mounted) return;
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (context) => const BottomNavigation(),
+        ),
+      );
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
-      Future.delayed(const Duration(seconds: 5)).then((value) async {
-        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const BottomNavigationComponent(),), );
-      });
     return Scaffold(
-      body: Image.asset(ImagePaths.general.splash, height: MediaQuery.of(context).size.height,width: MediaQuery.of(context).size.width, fit: BoxFit.cover,),
+      body: Image.asset(
+        ImagePaths.general.splash,
+        height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width,
+        fit: BoxFit.cover,
+      ),
     );
   }
 }

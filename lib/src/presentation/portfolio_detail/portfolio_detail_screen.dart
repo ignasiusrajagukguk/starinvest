@@ -4,6 +4,7 @@ import 'package:starinvest/src/common/colors.dart';
 import 'package:starinvest/src/common/fonts_family.dart';
 import 'package:starinvest/src/common/icon_paths.dart';
 import 'package:starinvest/src/common/image_paths.dart';
+
 class PortfolioDetailsScreen extends StatefulWidget {
   const PortfolioDetailsScreen({super.key});
 
@@ -73,7 +74,7 @@ class _MarketScreenState extends State<PortfolioDetailsScreen> {
             height: 100,
             decoration: BoxDecoration(
                 gradient: RadialGradient(radius: 1.4, colors: [
-              ConstColors.lightgreen.withOpacity(.8),
+              ConstColors.lightgreen.withValues(alpha: .8),
               ConstColors.baseColorDark,
             ])),
           ),
@@ -112,17 +113,22 @@ class _MarketScreenState extends State<PortfolioDetailsScreen> {
                                   fontSize: 12),
                             ),
                             InkWell(
-                              onTap: () {
-                                
-                              },
+                              onTap: () {},
                               child: const Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
-                                  Text('View Details',
+                                  Text(
+                                    'View Details',
                                     style: TextStyle(
                                         color: ConstColors.white,
                                         fontFamily: poppinsRegular,
-                                        fontSize: 12),),Icon(Icons.arrow_forward_ios_rounded, color: ConstColors.white, size: 14,)
+                                        fontSize: 12),
+                                  ),
+                                  Icon(
+                                    Icons.arrow_forward_ios_rounded,
+                                    color: ConstColors.white,
+                                    size: 14,
+                                  )
                                 ],
                               ),
                             )
@@ -139,7 +145,7 @@ class _MarketScreenState extends State<PortfolioDetailsScreen> {
                         Container(
                           padding: const EdgeInsets.all(5),
                           decoration: BoxDecoration(
-                              color: ConstColors.orange.withOpacity(0.1),
+                              color: ConstColors.orange.withValues(alpha: 0.1),
                               borderRadius: BorderRadius.circular(10)),
                           child: const Row(
                             mainAxisAlignment: MainAxisAlignment.start,
@@ -159,8 +165,9 @@ class _MarketScreenState extends State<PortfolioDetailsScreen> {
                             ],
                           ),
                         ),
-                        Image.asset(ImagePaths.portfolio.chart, )
-                        
+                        Image.asset(
+                          ImagePaths.portfolio.chart,
+                        )
                       ],
                     ),
                   ),
