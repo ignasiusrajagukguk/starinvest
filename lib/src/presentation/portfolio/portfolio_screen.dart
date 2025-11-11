@@ -3,7 +3,6 @@ import 'package:gap/gap.dart';
 import 'package:starinvest/src/common/colors.dart';
 import 'package:starinvest/src/common/fonts_family.dart';
 import 'package:starinvest/src/common/image_paths.dart';
-import 'package:starinvest/src/presentation/home/home_screen.dart';
 import 'package:starinvest/src/presentation/portfolio_detail/portfolio_detail_screen.dart';
 
 class PortfolioScreen extends StatefulWidget {
@@ -88,7 +87,7 @@ class _MarketScreenState extends State<PortfolioScreen> {
                     ]),
               ),
               SizedBox(
-                height: 300,
+                height: 320,
                 child: TabBarView(
                   children: [
                     Container(
@@ -134,12 +133,28 @@ class _MarketScreenState extends State<PortfolioScreen> {
                         ],
                       ),
                     ),
-                    ListPlayers(recentTransferJson: recentTransferJson),
-                    ListPlayers(recentTransferJson: recentTransferJson),
-                    ListPlayers(recentTransferJson: recentTransferJson),
+                    const Center(
+                      child: Text(
+                        "Weekly",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                    const Center(
+                      child: Text(
+                        "Monthly",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                    const Center(
+                      child: Text(
+                        "Yearly",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
                   ],
                 ),
               ),
+              const Gap(16),
               Container(
                 margin: const EdgeInsets.symmetric(horizontal: 16),
                 width: double.infinity,
@@ -194,7 +209,7 @@ class _MarketScreenState extends State<PortfolioScreen> {
                         )
                       ],
                     ),
-                    const Gap(10),
+                    const Gap(16),
                     const Text(
                       '€48.341,77',
                       style: TextStyle(

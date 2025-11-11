@@ -140,20 +140,19 @@ class _DetailScreenState extends State<DetailScreen> {
                   ),
                 ),
                 Padding(
-                  padding:const EdgeInsets.all(15),
+                  padding: const EdgeInsets.all(15),
                   child: widgetTab(),
                 )
               ],
             )),
           ),
           Container(
-            margin: const EdgeInsets.all(15),
+              margin: const EdgeInsets.all(15),
               height: 40,
               width: MediaQuery.of(context).size.width,
               decoration: BoxDecoration(
-              color: ConstColors.lightgreen,
-              borderRadius: BorderRadius.circular(10)
-              ),
+                  color: ConstColors.lightgreen,
+                  borderRadius: BorderRadius.circular(10)),
               child: const Center(
                 child: Text(
                   'Buy Now',

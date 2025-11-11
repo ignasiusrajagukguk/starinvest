@@ -4,15 +4,15 @@ class ImagePaths {
   static General general = const General();
   static Home home = const Home();
   static Portfolio portfolio = const Portfolio();
+  static News news = const News();
 }
-
 
 class General {
   const General();
 
   String get splash => '$_basePath/starinvest_splash.png';
   String get logo => '$_basePath/starinvest_logo.png';
-
+  String get kick24Logo => '$_basePath/kick24_logo.png';
 }
 
 class Home {
@@ -36,7 +36,9 @@ class Home {
   String get fcb => '$_basePath/fcb.png';
   String get club1 => '$_basePath/club1.png';
   String get rbl => '$_basePath/rbl.png';
+  String get nec => '$_basePath/nec.png';
 
+  String get borderCard => '$_basePath/card_border.png';
   String get chart => '$_basePath/chart.png';
   String get detailDummy => '$_basePath/detailDummy.png';
   String get chartDummy => '$_basePath/chartDummy.png';
@@ -50,10 +52,18 @@ class Home {
   String get mbapeDetailImg => '$_basePath/mbape_detail_img.png';
 }
 
-
 class Portfolio {
   const Portfolio();
 
   String get chart => '$_basePath/portfolio_chart.png';
+}
 
+class News {
+  const News();
+
+  String get news1 => '$_basePath/news1.png';
+  String get news2 => '$_basePath/news2.png';
+  String get forYou1 => '$_basePath/forYou1.png';
+  String get forYou2 => '$_basePath/forYou2.png';
+  String get forYou3 => '$_basePath/forYou3.png';
 }

@@ -7,6 +7,7 @@ import 'package:starinvest/src/common/image_paths.dart';
 import 'package:starinvest/src/common/widgets/text_form_field.dart';
 import 'package:starinvest/src/presentation/home/home_screen.dart';
 import 'package:starinvest/src/presentation/market/market_screen.dart';
+import 'package:starinvest/src/presentation/news/news_screen.dart';
 import 'package:starinvest/src/presentation/portfolio/portfolio_screen.dart';
 
 class BottomNavigation extends StatefulWidget {
@@ -25,7 +26,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
         HomeScreen(onTapTrending: _onTapTrending),
         MarketScreen(initialTab: marketTabIndex),
         const PortfolioScreen(),
-        const Center(child: Text('News', style: optionStyle)),
+        const NewsScreen(),
         const Center(child: Text('Profile', style: optionStyle)),
       ];
 
@@ -56,6 +57,9 @@ class _BottomNavigationState extends State<BottomNavigation> {
 
       case 4:
         return "Profile";
+
+      case 5:
+        return "News";
 
       default:
         return "";
