@@ -1,3 +1,6 @@
+import 'dart:async';
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
@@ -5,6 +8,7 @@ import 'package:starinvest/src/common/colors.dart';
 import 'package:starinvest/src/common/fonts_family.dart';
 import 'package:starinvest/src/common/icon_paths.dart';
 import 'package:starinvest/src/common/image_paths.dart';
+import 'package:starinvest/src/data/models/player_model.dart';
 import 'package:starinvest/src/presentation/detail/detail_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -19,58 +23,32 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  var trendingPlayerJson = [
-    {
-      'name': 'Antony Santos',
-      'club': 'Real Betis',
-      'price': '€75,000.00',
-      'image': ImagePaths.home.image1,
-      'clubImage': ImagePaths.home.realBetis,
-    },
-    {
-      'name': 'Kylian Mbappe',
-      'club': 'Real Madrid',
-      'price': '€99,999.99',
-      'image': ImagePaths.home.image2,
-      'clubImage': ImagePaths.home.realMadrid,
-    },
-    {
-      'name': 'Erling Haaland',
-      'club': 'Man. City',
-      'price': '€99,999.99',
-      'image': ImagePaths.home.image3,
-      'clubImage': ImagePaths.home.manCity,
-    },
-  ];
-
-  var recentTransferJson = [
-    {
-      'name': 'Trent Alexander Arnold',
-      'price': '€99,999.99',
-      'club': 'Liverpool',
-      'image': ImagePaths.home.image6,
-    },
-    {
-      'name': 'Kylian Mbappe',
-      'price': '€75,000.00',
-      'club': 'Real Madrid',
-      'image': ImagePaths.home.image2,
-    },
-    {
-      'name': 'Viktor Gyökeres',
-      'price': '€75,000.00',
-      'club': 'Suporting CP',
-      'image': ImagePaths.home.image5,
-    },
-    {
-      'name': 'Julian Alvarez',
-      'price': '€75,000.00',
-      'club': 'Atletico Madrid',
-      'image': ImagePaths.home.image7,
-    },
-  ];
-
   String choosenMenu = 'Very Rare';
+
+  late List<PlayerModel> players;
+  Timer? _timer;
+  final _rnd = Random();
+
+  @override
+  void initState() {
+    super.initState();
+    players = generateDummyPlayers();
+    // update pertama kali agar tidak kosong (opsional)
+    updatePlayerTrends(players, random: _rnd, maxChangePercent: 3);
+
+    _timer = Timer.periodic(const Duration(seconds: 5), (_) {
+      setState(() {
+        // setiap tick, random change kecil
+        updatePlayerTrends(players, random: _rnd, maxChangePercent: 3);
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -257,16 +235,17 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               const Gap(12),
               SizedBox(
-                height: 220,
+                height: 230,
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
-                  itemCount: trendingPlayerJson.length,
+                  itemCount: 5,
                   padding: const EdgeInsets.only(left: 16),
                   itemBuilder: (context, index) => InkWell(
                     onTap: () => Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) => const DetailScreen())),
                     child: Container(
                       margin: const EdgeInsets.only(right: 10),
+                      padding: const EdgeInsets.all(12),
                       decoration: BoxDecoration(
                           color: const Color(0xFF0C0C0C),
                           borderRadius: BorderRadius.circular(15)),
@@ -274,7 +253,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            trendingPlayerJson[index]['name'] ?? '',
+                            players[index].name,
                             style: const TextStyle(
                                 color: ConstColors.light,
                                 fontFamily: poppinsRegular,
@@ -283,12 +262,12 @@ class _HomeScreenState extends State<HomeScreen> {
                           Row(
                             children: [
                               Image.asset(
-                                trendingPlayerJson[index]['clubImage'] ?? '',
+                                players[index].clubImage,
                                 height: 16,
                               ),
                               const Gap(5),
                               Text(
-                                trendingPlayerJson[index]['club'] ?? '',
+                                players[index].club,
                                 style: const TextStyle(
                                     color: ConstColors.light,
                                     fontFamily: poppinsLight,
@@ -311,7 +290,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     fit: BoxFit.fitWidth,
                                   ),
                                   Image.asset(
-                                    trendingPlayerJson[index]['image'] ?? '',
+                                    players[index].image,
                                     height: 170,
                                   ),
                                 ],
@@ -368,14 +347,23 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 fontFamily: poppinsRegular,
                                                 fontSize: 10),
                                           ),
-                                          Text(
-                                            trendingPlayerJson[index]
-                                                    ['price'] ??
-                                                '',
-                                            style: const TextStyle(
-                                                color: ConstColors.light,
-                                                fontFamily: poppinsMedium,
-                                                fontSize: 16),
+                                          TweenAnimationBuilder<double>(
+                                            tween: Tween<double>(
+                                              begin: players[index].price,
+                                              end: players[index].price,
+                                            ),
+                                            duration: const Duration(
+                                                milliseconds: 800),
+                                            builder: (context, value, child) {
+                                              return Text(
+                                                "€${value.toStringAsFixed(2)}",
+                                                style: const TextStyle(
+                                                  color: ConstColors.light,
+                                                  fontFamily: poppinsMedium,
+                                                  fontSize: 16,
+                                                ),
+                                              );
+                                            },
                                           ),
                                         ],
                                       )
@@ -436,11 +424,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 height: 400,
                 child: TabBarView(
                   children: [
-                    ListPlayers(recentTransferJson: recentTransferJson),
-                    ListPlayers(recentTransferJson: recentTransferJson),
-                    ListPlayers(recentTransferJson: recentTransferJson),
-                    ListPlayers(recentTransferJson: recentTransferJson),
-                    ListPlayers(recentTransferJson: recentTransferJson),
+                    ListPlayers(players: players.sublist(0, 4)),
+                    ListPlayers(players: players.sublist(5, 9)),
+                    ListPlayers(players: players.sublist(10, 14)),
+                    ListPlayers(players: players.sublist(15, 19)),
+                    ListPlayers(players: players.sublist(20, 24)),
                   ],
                 ),
               ),
@@ -455,10 +443,10 @@ class _HomeScreenState extends State<HomeScreen> {
 class ListPlayers extends StatelessWidget {
   const ListPlayers({
     super.key,
-    required this.recentTransferJson,
+    required this.players,
   });
 
-  final List<Map<String, String>> recentTransferJson;
+  final List<PlayerModel> players;
 
   @override
   Widget build(BuildContext context) {
@@ -466,7 +454,7 @@ class ListPlayers extends StatelessWidget {
       physics: const NeverScrollableScrollPhysics(),
       shrinkWrap: true,
       padding: const EdgeInsets.symmetric(horizontal: 16),
-      itemCount: recentTransferJson.length,
+      itemCount: players.length,
       itemBuilder: (context, index) {
         return Container(
           margin: const EdgeInsets.only(bottom: 12),
@@ -483,19 +471,19 @@ class ListPlayers extends StatelessWidget {
                 color: ConstColors.white,
                 shape: BoxShape.circle,
                 image: DecorationImage(
-                  image: AssetImage(recentTransferJson[index]['image'] ?? ''),
+                  image: AssetImage(players[index].image),
                 ),
               ),
             ),
             title: Text(
-              recentTransferJson[index]['name'] ?? '',
+              players[index].name,
               style: const TextStyle(
                   color: ConstColors.light,
                   fontFamily: poppinsRegular,
                   fontSize: 12),
             ),
             subtitle: Text(
-              recentTransferJson[index]['club'] ?? '',
+              players[index].club,
               style: const TextStyle(
                   color: ConstColors.gray10,
                   fontFamily: poppinsLight,
@@ -504,30 +492,69 @@ class ListPlayers extends StatelessWidget {
             trailing: Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                Text(
-                  recentTransferJson[index]['price'] ?? '',
-                  style: const TextStyle(
+                // 🎯 Animasi nilai harga
+                AnimatedContainer(
+                  duration: const Duration(milliseconds: 500),
+                  decoration: BoxDecoration(
+                    color: players[index].isUp
+                        ? ConstColors.lightgreen.withValues(alpha: .1)
+                        : ConstColors.orange.withValues(alpha: .1),
+                    borderRadius: BorderRadius.circular(6),
+                  ),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+                  child: Text(
+                    "€${players[index].price.toStringAsFixed(2)}",
+                    style: const TextStyle(
                       color: ConstColors.light,
-                      fontFamily: poppinsRegular,
-                      fontSize: 12),
+                      fontFamily: poppinsMedium,
+                      fontSize: 12,
+                    ),
+                  ),
                 ),
-                const Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(
-                      Icons.arrow_drop_up_sharp,
-                      color: ConstColors.lightgreen,
-                    ),
-                    Text(
-                      '35.61%',
-                      style: TextStyle(
-                        color: ConstColors.lightgreen,
-                        fontFamily: poppinsSemiBold,
-                        fontSize: 10,
-                      ),
-                    ),
-                  ],
+
+                const SizedBox(height: 2),
+
+                // 🎯 Animasi tren naik/turun
+                TweenAnimationBuilder<double>(
+                  tween: Tween<double>(
+                    begin: players[index].trend,
+                    end: players[index].trend,
+                  ),
+                  duration: const Duration(milliseconds: 800),
+                  builder: (context, value, child) {
+                    final isUp = players[index].isUp;
+                    final color =
+                        isUp ? ConstColors.lightgreen : ConstColors.orange;
+                    return Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        AnimatedSwitcher(
+                          duration: const Duration(milliseconds: 300),
+                          transitionBuilder: (child, animation) =>
+                              ScaleTransition(
+                            scale: animation,
+                            child: child,
+                          ),
+                          child: Icon(
+                            isUp
+                                ? Icons.arrow_drop_up_sharp
+                                : Icons.arrow_drop_down_sharp,
+                            key: ValueKey(isUp),
+                            color: color,
+                          ),
+                        ),
+                        Text(
+                          value.toStringAsFixed(2),
+                          style: TextStyle(
+                            color: color,
+                            fontFamily: poppinsSemiBold,
+                            fontSize: 10,
+                          ),
+                        ),
+                      ],
+                    );
+                  },
                 ),
               ],
             ),

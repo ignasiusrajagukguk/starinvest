@@ -13,33 +13,6 @@ class PortfolioDetailsScreen extends StatefulWidget {
 }
 
 class _MarketScreenState extends State<PortfolioDetailsScreen> {
-  var recentTransferJson = [
-    {
-      'name': 'Trent Alexander Arnold',
-      'price': '€99,999.99',
-      'club': 'Liverpool',
-      'image': ImagePaths.home.image6,
-    },
-    {
-      'name': 'Kylian Mbappe',
-      'price': '€75,000.00',
-      'club': 'Real Madrid',
-      'image': ImagePaths.home.image2,
-    },
-    {
-      'name': 'Viktor Gyökeres',
-      'price': '€75,000.00',
-      'club': 'Suporting CP',
-      'image': ImagePaths.home.image5,
-    },
-    {
-      'name': 'Julian Alvarez',
-      'price': '€75,000.00',
-      'club': 'Atletico Madrid',
-      'image': ImagePaths.home.image7,
-    },
-  ];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
